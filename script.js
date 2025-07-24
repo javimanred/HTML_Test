@@ -47,16 +47,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Aquí iría la lógica para los fuegos artificiales (usando una librería como particles.js)
         // Por ahora, solo un console.log para indicar el final
-        console.log("Animación del pastel y texto completada. ¡Tiempo para fuegos artificiales!");
-    };
-
-    startAnimation();
-});
-
-// Dentro de tu script.js, después de que terminen las animaciones del pastel y el texto:
-// (Puedes llamarlo en tu función startAnimation o en un setTimeout separado)
-
-setTimeout(() => {
+        // console.log("Animación del pastel y texto completada. ¡Tiempo para fuegos artificiales!");
+        setTimeout(() => {
     // Configuración para fuegos artificiales (ejemplo básico)
     particlesJS('particles-js', {
         "particles": {
@@ -122,3 +114,10 @@ setTimeout(() => {
         // Pero para una simple lluvia de estrellas, la configuración inicial basta.
     }, 6000); // Aparecen después de que todo el pastel está listo
 }, 6000); // Ajusta este tiempo según tu secuencia de animación
+
+        
+    };
+
+    startAnimation();
+});
+
