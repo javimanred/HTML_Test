@@ -48,7 +48,7 @@
     <canvas id="fireworksCanvas"></canvas>
     <div class="content">
         <h1>¡Felicidades!</h1>
-        <p>¡Disfruta de los fuegos artificiales!</p>
+        <p>¡En tu día especial!</p>
     </div>
 
     <script>
@@ -121,7 +121,7 @@
             }
 
             // Crear nuevos fuegos artificiales ocasionalmente en la parte superior
-            if (Math.random() < 0.5 && particles.length < maxParticles) { // Ajusta la probabilidad y el límite de partículas
+            if (Math.random() < 0.001 && particles.length < maxParticles) { // Ajusta la probabilidad y el límite de partículas
                 const x = Math.random() * canvas.width;
                 const y = Math.random() * (canvas.height * 0.3); // Solo en el tercio superior de la pantalla
                 const colors = [
