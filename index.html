@@ -1,163 +1,26 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tu Mensaje del Día</title>
-    <style>
-        /* Estilos base (para pantallas pequeñas, mobile-first) */
-        body {
-            font-family: 'Arial', sans-serif;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            margin: 0;
-            background-color: #f0f8ff; /* Azul claro muy suave */
-            color: #333;
-            text-align: center;
-            padding: 20px;
-            box-sizing: border-box; /* Incluye padding y borde en el ancho/alto total */
-        }
-
-        .container {
-            background-color: #ffffff;
-            border-radius: 15px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-            padding: 25px; /* Ajuste para móviles */
-            max-width: 350px; /* Ancho máximo para el contenedor en móviles */
-            width: 90%; /* Ocupa el 90% del ancho de la pantalla */
-        }
-
-        h1 {
-            color: #4CAF50; /* Verde vibrante */
-            margin-bottom: 15px; /* Espaciado para móviles */
-            font-size: 1.8em; /* Tamaño de fuente para móviles */
-        }
-
-        p {
-            font-size: 1em; /* Tamaño de fuente base */
-            margin-bottom: 20px;
-        }
-
-        #mensajeDisplay {
-            min-height: 50px; /* Asegura un espacio mínimo para el mensaje */
-            font-size: 1.1em; /* Tamaño de fuente para móviles */
-            margin-top: 20px;
-            font-weight: bold;
-            color: #666;
-            word-wrap: break-word; /* Rompe palabras largas para evitar desbordamiento */
-        }
-
-        button {
-            background-color: #007bff; /* Azul vibrante */
-            color: white;
-            border: none;
-            padding: 10px 20px; /* Ajuste para móviles */
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 1em;
-            transition: background-color 0.3s ease, transform 0.1s ease;
-            box-shadow: 0 4px 6px rgba(0, 123, 255, 0.2);
-            width: 100%; /* El botón ocupa el ancho completo en móviles */
-            max-width: 250px; /* Ancho máximo para el botón */
-        }
-
-        button:hover {
-            background-color: #0056b3;
-            transform: translateY(-2px);
-        }
-
-        button:active {
-            transform: translateY(0);
-            box-shadow: 0 2px 4px rgba(0, 123, 255, 0.2);
-        }
-
-        /* --- Media Queries --- */
-
-        /* Para pantallas más grandes (tablets y desktops) */
-        @media (min-width: 600px) {
-            .container {
-                padding: 30px;
-                max-width: 450px; /* Un poco más ancho en tablets */
-            }
-
-            h1 {
-                font-size: 2.2em;
-            }
-
-            p {
-                font-size: 1.1em;
-            }
-
-            #mensajeDisplay {
-                font-size: 1.3em;
-            }
-
-            button {
-                padding: 12px 25px;
-                max-width: 300px; /* Botón un poco más grande */
-            }
-        }
-
-        /* Para pantallas muy grandes (desktops) */
-        @media (min-width: 992px) {
-            .container {
-                max-width: 500px; /* Ancho aún mayor en desktops */
-                padding: 40px;
-            }
-
-            h1 {
-                font-size: 2.5em;
-            }
-
-            p {
-                font-size: 1.2em;
-            }
-
-            #mensajeDisplay {
-                font-size: 1.5em;
-                min-height: 70px;
-            }
-
-            button {
-                max-width: 350px; /* Botón más grande */
-            }
-        }
-    </style>
+    <title>Feliz Cumpleaños</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="container">
-        <h1>✨ Tu Mensaje del Día ✨</h1>
-        <p>Haz clic en el botón para descubrir tu mensaje de hoy:</p>
-        <button id="generarMensajeBtn">Obtener Mensaje</button>
-        <p id="mensajeDisplay"></p>
+    <div class="animation-container">
+        <div class="cake-container">
+            <div class="cake-layer layer-3"></div>
+            <div class="cake-layer layer-2"></div>
+            <div class="cake-layer layer-1"></div>
+            <div class="cake-cream top-cream"></div>
+            <div class="candle">
+                <div class="flame"></div>
+                <div class="number">32</div>
+            </div>
+        </div>
+        <h1 class="happy-birthday">Feliz Cumpleaños!</h1>
     </div>
 
-    <script>
-        const mensajes = [
-            "Jeisson te queremos mucho.",
-            "Jeisson tu tienes que trabajar trabaja.",
-            "Jeisson lo estas haciendo genial.",
-            "Jeisson la verdadera felicidad esta en las pequeñas cosas.",
-            "Jeisson ame mas a Karen.",
-            "Jeisson deseale un feliz día a alguien con quien no hablas hace mucho.",
-            "Jeisson, por favor haga caso.",
-            "Jeisson no dejes que el pasado marque tu futuro.",
-            "Jeisson me mame de inventar mensajes entonces sera el penultimo, exito hoy.",
-            "Jeisson, los grandes esfuerzos siempre tienen una gran recompensa, no siempre es la que esperamos."
-        ];
-
-        function generarMensaje() {
-            const indiceAleatorio = Math.floor(Math.random() * mensajes.length);
-            document.getElementById('mensajeDisplay').innerText = mensajes[indiceAleatorio];
-        }
-
-        document.getElementById('generarMensajeBtn').addEventListener('click', generarMensaje);
-
-        // Genera un mensaje inicial al cargar la página
-        generarMensaje();
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
