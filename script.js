@@ -9,16 +9,30 @@ document.addEventListener('DOMContentLoaded', () => {
     const flame = document.querySelector('.flame');
     const happyBirthdayText = document.querySelector('.happy-birthday');
     const birthdayNumber = document.querySelector('.birthday-number');
+    const particlesContainer = document.getElementById('particles-js');
 
     // Función para animar un elemento después de un retraso
     const animateElement = (element, className, delay) => {
         return new Promise(resolve => {
             setTimeout(() => {
                 element.classList.add(className);
-                // Esperamos un poco más para que la animación se complete
-                element.addEventListener('animationend', () => resolve(), { once: true });
-                // Si la animación no tiene un 'animationend' (ej. transition), resolvemos después de un tiempo prudente
-                setTimeout(() => resolve(), delay + 200);
+                // Usamos requestAnimationFrame para asegurar que la clase se aplica antes de resolver
+                requestAnimationFrame(() => {
+                    // Esperar el final de la animación o un tiempo prudente
+                    const animationDuration = parseFloat(getComputedStyle(element).animationDuration) * 1000;
+                    const transitionDuration = parseFloat(getComputedStyle(element).transitionDuration) * 1000;
+                    const duration = Math.max(animationDuration, transitionDuration);
+
+                    if (duration > 0) {
+                        element.addEventListener('animationend', () => resolve(), { once: true });
+                        element.addEventListener('transitionend', () => resolve(), { once: true });
+                        // Fallback por si no se detecta el fin de la animación/transición
+                        setTimeout(() => resolve(), duration + 100);
+                    } else {
+                        // Si no hay animación/transición, resolver de inmediato
+                        resolve();
+                    }
+                });
             }, delay);
         });
     };
@@ -26,8 +40,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // Secuencia de animaciones
     const startAnimation = async () => {
         // Pastel Capa 1 y Crema
-        await animateElement(segment1, 'slide-in-up', 500);
-        await animateElement(creamMiddle1, 'cream-scale-in', 100); // Ligeramente después de la capa
+        await animateElement(segment1, 'slide-in-up', 500); // Aparece la capa
+        await animateElement(creamMiddle1, 'cream-scale-in', 100); // La crema aparece poco después
 
         // Pastel Capa 2 y Crema
         await animateElement(segment2, 'slide-in-up', 500);
@@ -40,88 +54,63 @@ document.addEventListener('DOMContentLoaded', () => {
         // Vela
         await animateElement(candle, 'candle-rise', 500);
 
-        // Llama y Número
-        await animateElement(flame, 'flame-flicker', 300); // La llama aparece y parpadea
-        await animateElement(happyBirthdayText, 'text-slide-in', 500); // "Feliz Cumpleaños!"
-        await animateElement(birthdayNumber, 'text-slide-in', 200); // Número "32" después del texto
+        // Llama
+        await animateElement(flame, 'flame-flicker', 300);
 
-        // Aquí iría la lógica para los fuegos artificiales (usando una librería como particles.js)
-        // Por ahora, solo un console.log para indicar el final
-        // console.log("Animación del pastel y texto completada. ¡Tiempo para fuegos artificiales!");
-         await animateElement(flame, 'flame-flicker', 300); // La llama aparece y parpadea
-        await animateElement(happyBirthdayText, 'text-slide-in', 500); // "Feliz Cumpleaños!"
-        await animateElement(birthdayNumber, 'text-slide-in', 200); // Número "32" después del texto
+        // Texto "Feliz Cumpleaños!" y Número "32"
+        await animateElement(happyBirthdayText, 'text-slide-in', 700);
+        await animateElement(birthdayNumber, 'text-slide-in', 200); // Ligeramente después del texto principal
 
-        // Configuración y activación de particles.js
+        // Activación de particles.js
         setTimeout(() => {
+            // Mostrar el contenedor de partículas
+            particlesContainer.style.opacity = 1;
+
+            // Configuración básica para un efecto de "lluvia de estrellas" o fondo animado
             particlesJS('particles-js', {
                 "particles": {
                     "number": {
-                        "value": 80, // Número de partículas visibles constantemente (para fondo)
+                        "value": 80, // Número de partículas
                         "density": { "enable": true, "value_area": 800 }
                     },
-                    "color": { "value": "#ffffff" }, // Color blanco por defecto
-                    "shape": {
-                        "type": "circle",
-                        "stroke": { "width": 0, "color": "#000000" },
-                        "polygon": { "nb_sides": 5 },
-                        "image": { "src": "img/github.svg", "width": 100, "height": 100 }
-                    },
+                    "color": { "value": ["#FFD700", "#FF69B4", "#8A2BE2", "#FFFFFF"] }, // Colores variados
+                    "shape": { "type": "circle" },
                     "opacity": {
-                        "value": 0.5,
-                        "random": false,
-                        "anim": { "enable": false, "speed": 1, "opacity_min": 0.1, "sync": false }
+                        "value": 0.6,
+                        "random": true,
+                        "anim": { "enable": true, "speed": 1, "opacity_min": 0.1, "sync": false }
                     },
                     "size": {
                         "value": 3,
                         "random": true,
-                        "anim": { "enable": false, "speed": 40, "size_min": 0.1, "sync": false }
+                        "anim": { "enable": false }
                     },
-                    "line_linked": {
-                        "enable": true,
-                        "distance": 150,
-                        "color": "#ffffff",
-                        "opacity": 0.4,
-                        "width": 1
-                    },
+                    "line_linked": { "enable": false }, // Sin líneas entre partículas
                     "move": {
                         "enable": true,
-                        "speed": 6,
-                        "direction": "none",
-                        "random": false,
+                        "speed": 3, // Velocidad de movimiento
+                        "direction": "bottom", // Caerán hacia abajo
+                        "random": true,
                         "straight": false,
                         "out_mode": "out",
                         "bounce": false,
-                        "attract": { "enable": false, "rotateX": 600, "rotateY": 1200 }
+                        "attract": { "enable": false }
                     }
                 },
                 "interactivity": {
                     "detect_on": "canvas",
                     "events": {
-                        "onhover": { "enable": true, "mode": "grab" },
-                        "onclick": { "enable": true, "mode": "push" },
+                        "onhover": { "enable": false }, // Desactivar interacción al pasar el mouse
+                        "onclick": { "enable": false }, // Desactivar interacción al hacer clic
                         "resize": true
-                    },
-                    "modes": {
-                        "grab": { "distance": 400, "line_linked": { "opacity": 1 } },
-                        "bubble": { "distance": 400, "size": 40, "duration": 2, "opacity": 8, "speed": 3 },
-                        "repulse": { "distance": 200, "duration": 0.4 },
-                        "push": { "particles_nb": 4 },
-                        "remove": { "particles_nb": 2 }
                     }
                 },
                 "retina_detect": true
             });
+        }, 6500); // Este tiempo debe ser lo suficientemente largo para que toda la animación del pastel y el texto haya terminado. Ajusta según sea necesario.
 
-            // Opcional: revelar el contenedor de partículas si lo tenías inicialmente oculto
-            document.getElementById('particles-js').style.opacity = 1;
-
-        }, 6500); // Ajusta este tiempo para que aparezcan los fuegos artificiales cuando quieras.
-                  // Debe ser después de que todo el pastel y texto estén animados.
-
-        console.log("Animación del pastel y texto completada. ¡Tiempo para fuegos artificiales!");
+        console.log("Animación completa!");
     };
 
     startAnimation();
 });
-
