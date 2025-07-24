@@ -121,7 +121,7 @@
             }
 
             // Crear nuevos fuegos artificiales ocasionalmente en la parte superior
-            if (Math.random() < 0.05 && particles.length < maxParticles) { // Ajusta la probabilidad y el límite de partículas
+            if (Math.random() < 0.5 && particles.length < maxParticles) { // Ajusta la probabilidad y el límite de partículas
                 const x = Math.random() * canvas.width;
                 const y = Math.random() * (canvas.height * 0.3); // Solo en el tercio superior de la pantalla
                 const colors = [
@@ -132,7 +132,7 @@
                     [255, 0, 255],  // Magenta
                     [0, 255, 255]   // Cian
                 ];
-                createExplosion(x, y, 40, colors); // 40 partículas por explosión
+                createExplosion(x, y, 80, colors); // 40 partículas por explosión
             }
         }
 
