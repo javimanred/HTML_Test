@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>¡Celebración!</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background-color: #ffc0cb; /* Rosa pastel */
+            font-family: sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            flex-direction: column;
+        }
+
+        canvas {
+            display: block;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 1; /* Para que esté por encima del fondo pero debajo del texto */
+        }
+
+        .content {
+            position: relative;
+            z-index: 2; /* Para que el texto esté por encima de los fuegos artificiales */
+            text-align: center;
+            padding: 20px;
+        }
+
+        h1 {
+            font-size: 3em;
+            margin-bottom: 10px;
+        }
+
+        p {
+            font-size: 1.2em;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="fireworksCanvas"></canvas>
+    <div class="content">
+        <h1>¡Felicidades!</h1>
+        <p>¡Disfruta de los fuegos artificiales!</p>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('fireworksCanvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+        const maxParticles = 100;
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        function Particle(x, y, color, velocityX, velocityY, lifespan) {
+            this.x = x;
+            this.y = y;
+            this.color = color;
+            this.velocityX = velocityX;
+            this.velocityY = velocityY;
+            this.lifespan = lifespan;
+            this.initialLifespan = lifespan;
+            this.radius = 2;
+        }
+
+        Particle.prototype.update = function() {
+            this.x += this.velocityX;
+            this.y += this.velocityY;
+            this.velocityY += 0.05; // Gravedad
+            this.lifespan--;
+
+            // Desvanecer la partícula
+            this.alpha = this.lifespan / this.initialLifespan;
+            this.radius = 2 * (this.lifespan / this.initialLifespan); // Reducir tamaño
+        };
+
+        Particle.prototype.draw = function() {
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(${this.color[0]}, ${this.color[1]}, ${this.color[2]}, ${this.alpha})`;
+            ctx.fill();
+        };
+
+        function createExplosion(x, y, numParticles, colors) {
+            for (let i = 0; i < numParticles; i++) {
+                const angle = Math.random() * Math.PI * 2;
+                const speed = Math.random() * 5 + 1;
+                const velocityX = Math.cos(angle) * speed;
+                const velocityY = Math.sin(angle) * speed;
+                const color = colors[Math.floor(Math.random() * colors.length)];
+                const lifespan = Math.random() * 60 + 30; // 30 a 90 frames
+                particles.push(new Particle(x, y, color, velocityX, velocityY, lifespan));
+            }
+        }
+
+        function animate() {
+            requestAnimationFrame(animate);
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            for (let i = particles.length - 1; i >= 0; i--) {
+                const p = particles[i];
+                p.update();
+                p.draw();
+
+                if (p.lifespan <= 0 || p.radius <= 0) {
+                    particles.splice(i, 1);
+                }
+            }
+
+            // Crear nuevos fuegos artificiales ocasionalmente en la parte superior
+            if (Math.random() < 0.05 && particles.length < maxParticles) { // Ajusta la probabilidad y el límite de partículas
+                const x = Math.random() * canvas.width;
+                const y = Math.random() * (canvas.height * 0.3); // Solo en el tercio superior de la pantalla
+                const colors = [
+                    [255, 0, 0],    // Rojo
+                    [0, 255, 0],    // Verde
+                    [0, 0, 255],    // Azul
+                    [255, 255, 0],  // Amarillo
+                    [255, 0, 255],  // Magenta
+                    [0, 255, 255]   // Cian
+                ];
+                createExplosion(x, y, 40, colors); // 40 partículas por explosión
+            }
+        }
+
+        animate();
+    </script>
+</body>
+</html>
