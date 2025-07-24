@@ -3,23 +3,24 @@ body {
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    background-color: #f0f0f0;
-    overflow: hidden; /* Oculta cualquier cosa que se salga del body */
+    background-color: #36454F; /* Un fondo oscuro para que destaquen las partículas */
+    overflow: hidden;
     margin: 0;
     font-family: 'Arial', sans-serif;
-    perspective: 1000px; /* Para efectos 3D si se quisieran añadir */
+    perspective: 1000px;
 }
 
 .animation-container {
     text-align: center;
     position: relative;
-    width: 300px; /* Ancho base del área de animación */
-    height: 450px; /* Alto base del área de animación */
+    width: 350px; /* Un poco más ancho */
+    height: 480px; /* Altura para acomodar texto y pastel */
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: flex-end; /* Alinea los elementos arriba */
-    padding-top: 20px;
+    justify-content: flex-start;
+    padding-top: 30px; /* Espacio para el texto superior */
+    z-index: 10; /* Asegura que esté por encima de particles.js */
 }
 
 .happy-birthday {
@@ -28,10 +29,11 @@ body {
     opacity: 0;
     transform: translateY(-50px);
     margin: 0;
-    z-index: 10;
-    position: relative;
     font-weight: bold;
     letter-spacing: 2px;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    position: relative; /* Asegura que el z-index funcione */
+    z-index: 10;
 }
 
 .birthday-number {
@@ -40,91 +42,82 @@ body {
     opacity: 0;
     transform: translateY(-30px);
     margin-top: 5px;
-    z-index: 10;
-    position: relative;
     font-weight: bold;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
+    position: relative; /* Asegura que el z-index funcione */
+    z-index: 10;
 }
 
 .cake-assembly-area {
     position: absolute;
-    bottom: 0;
+    bottom: 20px; /* Deja un pequeño espacio en la parte inferior */
     width: 100%;
-    height: 300px; /* Espacio para el pastel */
+    height: 250px; /* Altura total para el pastel */
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: flex-end; /* Para que las capas se apilen desde abajo */
-    overflow: hidden; /* Esencial para la crema que se desliza */
-}
-
-#particles-js {
-    position: fixed; /* O 'fixed' si quieres que cubran toda la ventana */
-    width: 100%;
-    height: 100%;
-    background-color: transparent; /* O el color de fondo que desees */
-    z-index: 0; /* Asegúrate de que esté debajo de tu pastel, texto, etc. */
-    top: 0;
-    left: 0;
+    justify-content: flex-end;
+    overflow: hidden; /* Importante para la animación de la crema */
+    z-index: 5; /* Por encima de particles.js pero debajo del texto */
 }
 
 /* --- Estilos base de las capas del pastel y crema --- */
 .cake-segment {
     position: relative;
-    width: 100%; /* El ancho lo controlará cada capa interna */
-    opacity: 0; /* Inicialmente oculto */
+    width: 100%;
+    opacity: 0;
     transform: translateY(100%); /* Empieza desde abajo */
     transition: transform 0.8s ease-out, opacity 0.8s ease-out;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
 }
 
 .cake-layer {
     background-color: #FFB6C1; /* Rosa claro para el pastel */
-    border-radius: 50% / 15%; /* Forma ovalada */
+    border-radius: 50% / 15%;
     box-shadow: 0 5px 10px rgba(0,0,0,0.2);
     position: relative;
-    z-index: 2; /* Para que la capa esté debajo de su crema */
+    z-index: 2; /* General para las capas de pastel */
 }
 
 .cake-cream {
     background-color: #FFFFFF; /* Crema blanca */
-    border-radius: 50% / 15%; /* Forma ovalada */
+    border-radius: 50% / 15%;
     position: absolute;
-    z-index: 3; /* Para que la crema esté encima de la capa */
+    z-index: 3; /* General para la crema */
 }
 
-/* Tamaños y posiciones para cada segmento */
+/* Tamaños y posiciones para cada segmento y sus contenidos */
+
 .segment-1 {
     width: 280px;
-    height: 70px;
-    z-index:1;
+    height: 70px; /* Altura combinada pastel + crema */
+    z-index: 1; /* La capa base tiene el z-index más bajo */
     margin-bottom: -15px; /* Superposición ligera para unir */
 }
-.segment-1 .cake-layer { width: 100%; height: 50px; bottom: 0; }
+.segment-1 .cake-layer { width: 100%; height: 50px; }
 .segment-1 .cream-middle { width: 90%; height: 20px; bottom: 45px; left: 5%; }
 
 
 .segment-2 {
     width: 240px;
     height: 60px;
-    z-index:2;
+    z-index: 2; /* Mayor que el segmento 1 */
     margin-bottom: -15px;
 }
-.segment-2 .cake-layer { width: 100%; height: 45px; bottom: 0; }
+.segment-2 .cake-layer { width: 100%; height: 45px; }
 .segment-2 .cream-middle { width: 90%; height: 18px; bottom: 38px; left: 5%; }
 
 
 .segment-3 {
     width: 200px;
     height: 50px;
-    z-index:3;
+    z-index: 3; /* Mayor que el segmento 2 */
     margin-bottom: -15px;
 }
 .segment-3 .cake-layer { width: 100%; height: 40px; }
-.segment-3 .cream-top-slid {
-    width: 100%;
-    height: 50px;
-    z-index: 3;
-    margin-bottom: -15px;
-}
 /* La crema superior tiene un estilo especial */
 
 /* Crema intermedia (para segmentos 1 y 2) */
@@ -136,13 +129,12 @@ body {
 /* Crema superior con efecto deslizante (para segmento 3) */
 .cream-top-slide {
     width: 100%;
-    height: 40px; /* Altura de la crema */
-    bottom: 35px; /* Posicionamiento sobre la capa del pastel */
+    height: 25px; /* Altura de la crema */
+    bottom: 30px; /* Posicionamiento sobre la capa del pastel */
     left: 0;
-    border-radius: 50% / 15%; /* Forma de la crema */
-    background-color: #FFFFFF; /* Crema blanca */
+    border-radius: 50% 50% 0 0 / 100% 100% 0 0; /* Solo la parte superior redondeada */
+    background-color: #FFFFFF;
 
-    /* Animación de deslizamiento y forma */
     transform: translateY(100%) scaleX(0); /* Empieza fuera y aplastada */
     transform-origin: bottom center;
 }
@@ -155,12 +147,12 @@ body {
     height: 60px;
     background-color: #FFD700; /* Dorado */
     border-radius: 3px;
-    bottom: 170px; /* Ajusta para que esté sobre la crema superior */
+    bottom: 170px; /* Ajusta para que esté sobre la crema superior del último segmento */
     left: 50%;
     transform: translateX(-50%) scaleY(0); /* Inicialmente escalada a 0 */
     transform-origin: bottom;
     opacity: 0;
-    z-index: 4;
+    z-index: 4; /* Por encima de las capas del pastel */
     box-shadow: 0 0 5px rgba(0,0,0,0.2);
 }
 
@@ -176,6 +168,18 @@ body {
     opacity: 0;
 }
 
+/* --- Particles.js Container --- */
+#particles-js {
+    position: fixed; /* O 'absolute' si quieres que se contenga en un padre y no toda la ventana */
+    width: 100%;
+    height: 100%;
+    background-color: transparent; /* Permite ver el fondo del body */
+    z-index: 0; /* ¡MUY IMPORTANTE! Debe estar detrás de todo lo demás */
+    top: 0;
+    left: 0;
+    opacity: 0; /* Inicialmente oculto */
+    transition: opacity 1.5s ease-out; /* Para una aparición suave */
+}
 
 /* --- Clases de Animación (añadidas por JS) --- */
 
@@ -189,7 +193,7 @@ body {
 }
 
 .cream-slide-and-form {
-    animation: creamSlideAndForm 1.0s forwards cubic-bezier(0.68, -0.55, 0.265, 1.55); /* Rebote */
+    animation: creamSlideAndForm 1.0s forwards cubic-bezier(0.68, -0.55, 0.265, 1.55); /* Con rebote */
 }
 
 .candle-rise {
