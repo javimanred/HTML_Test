@@ -4,167 +4,216 @@ body {
     align-items: center;
     min-height: 100vh;
     background-color: #f0f0f0;
-    overflow: hidden; /* Hide overflow from animations */
+    overflow: hidden; /* Oculta cualquier cosa que se salga del body */
     margin: 0;
     font-family: 'Arial', sans-serif;
+    perspective: 1000px; /* Para efectos 3D si se quisieran añadir */
 }
 
 .animation-container {
     text-align: center;
     position: relative;
-}
-
-.cake-container {
-    position: relative;
-    width: 250px; /* Base width for the cake */
-    height: 200px; /* Placeholder height */
-    margin: 50px auto;
-}
-
-.cake-layer {
-    position: absolute;
-    width: 100%;
-    background-color: #ff99cc; /* Pink cake */
-    border-radius: 50% / 10%; /* Oval shape */
-    box-shadow: 0 5px 10px rgba(0,0,0,0.2);
-    opacity: 0; /* Initially hidden */
-    transform: translateY(100px) scale(0.5); /* Start below and smaller */
-    transform-origin: bottom center;
-}
-
-.layer-1 {
-    height: 60px;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    z-index: 3;
-}
-
-.layer-2 {
-    height: 50px;
-    bottom: 50px; /* Stacks on layer 1 */
-    left: 5%;
-    width: 90%;
-    z-index: 2;
-}
-
-.layer-3 {
-    height: 40px;
-    bottom: 90px; /* Stacks on layer 2 */
-    left: 10%;
-    width: 80%;
-    z-index: 1;
-}
-
-.cake-cream {
-    position: absolute;
-    background-color: #ffe0b3; /* Cream color */
-    border-radius: 50%;
-    opacity: 0;
-    transform: translateY(20px) scale(0);
-}
-
-.top-cream {
-    width: 70%;
-    height: 30px;
-    bottom: 120px; /* On top of layer 3 */
-    left: 15%;
-    z-index: 4;
-}
-
-.candle {
-    position: absolute;
-    width: 10px;
-    height: 40px;
-    background-color: #ffcc00; /* Yellow candle */
-    border-radius: 2px;
-    bottom: 150px; /* On top of cream */
-    left: 50%;
-    transform: translateX(-50%) scaleY(0); /* Initially scale Y to 0 */
-    transform-origin: bottom;
-    opacity: 0;
-    z-index: 5;
-}
-
-.flame {
-    position: absolute;
-    width: 8px;
-    height: 15px;
-    background-color: #ff4500; /* Orange-red flame */
-    border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
-    top: -10px;
-    left: 1px;
-    box-shadow: 0 0 8px 3px rgba(255,165,0,0.7);
-    opacity: 0;
-}
-
-.number {
-    color: white;
-    font-size: 10px;
-    font-weight: bold;
-    position: absolute;
-    top: 15px;
-    left: 50%;
-    transform: translateX(-50%);
-    opacity: 0;
+    width: 300px; /* Ancho base del área de animación */
+    height: 450px; /* Alto base del área de animación */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start; /* Alinea los elementos arriba */
+    padding-top: 20px;
 }
 
 .happy-birthday {
     font-size: 3em;
-    color: #4CAF50;
+    color: #FF69B4; /* Rosa vibrante */
     opacity: 0;
-    transform: translateY(50px);
-    margin-top: 20px;
-    position: absolute; /* Position relative to animation-container */
-    width: 100%;
-    left: 0;
-    top: 50%; /* Adjust as needed */
     transform: translateY(-50px);
+    margin: 0;
+    z-index: 10;
+    position: relative;
+    font-weight: bold;
+    letter-spacing: 2px;
+}
+
+.birthday-number {
+    font-size: 1.8em;
+    color: #8A2BE2; /* Morado */
     opacity: 0;
-    /* transition: all 1s ease-out; */ /* Remove or override if using JS to add classes */
+    transform: translateY(-30px);
+    margin-top: 5px;
+    z-index: 10;
+    position: relative;
+    font-weight: bold;
 }
 
-/* --- Animation Classes (added by JS) --- */
-
-.fade-in-scale-up {
-    animation: fadeInScaleUp 0.8s forwards ease-out;
+.cake-assembly-area {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 300px; /* Espacio para el pastel */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end; /* Para que las capas se apilen desde abajo */
+    overflow: hidden; /* Esencial para la crema que se desliza */
 }
 
-.slide-up-scale-y {
-    animation: slideUpScaleY 0.5s forwards ease-out;
+/* --- Estilos base de las capas del pastel y crema --- */
+.cake-segment {
+    position: relative;
+    width: 100%; /* El ancho lo controlará cada capa interna */
+    opacity: 0; /* Inicialmente oculto */
+    transform: translateY(100%); /* Empieza desde abajo */
+    transition: transform 0.8s ease-out, opacity 0.8s ease-out;
 }
 
-.fade-in {
-    animation: fadeIn 0.5s forwards ease-out;
+.cake-layer {
+    background-color: #FFB6C1; /* Rosa claro para el pastel */
+    border-radius: 50% / 15%; /* Forma ovalada */
+    box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+    position: relative;
+    z-index: 2; /* Para que la capa esté debajo de su crema */
+}
+
+.cake-cream {
+    background-color: #FFFFFF; /* Crema blanca */
+    border-radius: 50% / 15%; /* Forma ovalada */
+    position: absolute;
+    z-index: 3; /* Para que la crema esté encima de la capa */
+}
+
+/* Tamaños y posiciones para cada segmento */
+.segment-1 {
+    width: 280px;
+    height: 80px;
+    margin-bottom: -15px; /* Superposición ligera para unir */
+}
+.segment-1 .cake-layer { width: 100%; height: 60px; bottom: 0; }
+.segment-1 .cream-middle { width: 90%; height: 25px; bottom: 50px; left: 5%; }
+
+
+.segment-2 {
+    width: 240px;
+    height: 70px;
+    margin-bottom: -15px;
+}
+.segment-2 .cake-layer { width: 100%; height: 55px; bottom: 0; }
+.segment-2 .cream-middle { width: 90%; height: 20px; bottom: 45px; left: 5%; }
+
+
+.segment-3 {
+    width: 200px;
+    height: 60px;
+    margin-bottom: -15px;
+}
+.segment-3 .cake-layer { width: 100%; height: 50px; bottom: 0; }
+/* La crema superior tiene un estilo especial */
+
+/* Crema intermedia (para segmentos 1 y 2) */
+.cream-middle {
+    transform: scale(0); /* Inicialmente escondida */
+    transform-origin: center;
+}
+
+/* Crema superior con efecto deslizante (para segmento 3) */
+.cream-top-slide {
+    width: 100%;
+    height: 40px; /* Altura de la crema */
+    bottom: 35px; /* Posicionamiento sobre la capa del pastel */
+    left: 0;
+    border-radius: 50% / 15%; /* Forma de la crema */
+    background-color: #FFFFFF; /* Crema blanca */
+
+    /* Animación de deslizamiento y forma */
+    transform: translateY(100%) scaleX(0); /* Empieza fuera y aplastada */
+    transform-origin: bottom center;
+}
+
+
+/* --- Vela --- */
+.candle {
+    position: absolute;
+    width: 12px;
+    height: 60px;
+    background-color: #FFD700; /* Dorado */
+    border-radius: 3px;
+    bottom: 215px; /* Ajusta para que esté sobre la crema superior */
+    left: 50%;
+    transform: translateX(-50%) scaleY(0); /* Inicialmente escalada a 0 */
+    transform-origin: bottom;
+    opacity: 0;
+    z-index: 5;
+    box-shadow: 0 0 5px rgba(0,0,0,0.2);
+}
+
+.flame {
+    position: absolute;
+    width: 10px;
+    height: 20px;
+    background-color: #FFA500; /* Naranja */
+    border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+    top: -12px;
+    left: 1px;
+    box-shadow: 0 0 10px 4px rgba(255,165,0,0.8);
+    opacity: 0;
+}
+
+
+/* --- Clases de Animación (añadidas por JS) --- */
+
+.slide-in-up {
+    transform: translateY(0%);
+    opacity: 1;
+}
+
+.cream-scale-in {
+    animation: creamScaleIn 0.5s forwards ease-out;
+}
+
+.cream-slide-and-form {
+    animation: creamSlideAndForm 1.0s forwards cubic-bezier(0.68, -0.55, 0.265, 1.55); /* Rebote */
+}
+
+.candle-rise {
+    animation: candleRise 0.6s forwards cubic-bezier(0.68, -0.55, 0.265, 1.55);
 }
 
 .flame-flicker {
-    animation: flicker 0.3s infinite alternate;
+    animation: flicker 0.3s infinite alternate, fadeIn 0.5s forwards;
 }
 
-.text-reveal {
-    animation: textReveal 1.5s forwards ease-out;
+.text-slide-in {
+    animation: textSlideIn 1.2s forwards ease-out;
 }
 
+/* --- Keyframe Animations --- */
 
-/* Keyframe Animations */
-@keyframes fadeInScaleUp {
+@keyframes creamScaleIn {
     to {
+        transform: scale(1);
         opacity: 1;
-        transform: translateY(0) scale(1);
     }
 }
 
-@keyframes slideUpScaleY {
+@keyframes creamSlideAndForm {
+    0% {
+        transform: translateY(100%) scaleX(0);
+        opacity: 0;
+    }
+    50% {
+        transform: translateY(0%) scaleX(1.2); /* Se extiende un poco */
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(0%) scaleX(1); /* Vuelve a su tamaño normal */
+        opacity: 1;
+    }
+}
+
+
+@keyframes candleRise {
     to {
         opacity: 1;
         transform: translateX(-50%) scaleY(1);
-    }
-}
-
-@keyframes fadeIn {
-    to {
-        opacity: 1;
     }
 }
 
@@ -174,7 +223,13 @@ body {
     100% { transform: scaleY(1); opacity: 1; }
 }
 
-@keyframes textReveal {
+@keyframes fadeIn {
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes textSlideIn {
     from {
         opacity: 0;
         transform: translateY(50px);
