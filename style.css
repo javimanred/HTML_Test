@@ -45,6 +45,16 @@ body {
     font-weight: bold;
 }
 
+#particles-js {
+    position: absolute; /* O 'fixed' si quieres que cubran toda la ventana */
+    width: 100%;
+    height: 100%;
+    background-color: transparent; /* O el color de fondo que desees */
+    z-index: 1; /* Asegúrate de que esté debajo de tu pastel, texto, etc. */
+    top: 0;
+    left: 0;
+}
+
 .cake-assembly-area {
     position: absolute;
     bottom: 0;
