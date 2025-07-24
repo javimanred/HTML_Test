@@ -132,11 +132,17 @@
                     [255, 0, 255],  // Magenta
                     [0, 255, 255]   // Cian
                 ];
-                createExplosion(x, y, 200, colors); // 40 partículas por explosión
+                createExplosion(x, y, 150, colors); // 40 partículas por explosión
             }
         }
         setTimeout(() => {
-        animate();
+            animationActive = true;
+            animate();
+            setInterval(()=>{
+                particles = [];
+                animationActive = true;
+                animate();
+            },3000);
         },5000);
     </script>
 </body>
