@@ -52,3 +52,73 @@ document.addEventListener('DOMContentLoaded', () => {
 
     startAnimation();
 });
+
+// Dentro de tu script.js, después de que terminen las animaciones del pastel y el texto:
+// (Puedes llamarlo en tu función startAnimation o en un setTimeout separado)
+
+setTimeout(() => {
+    // Configuración para fuegos artificiales (ejemplo básico)
+    particlesJS('particles-js', {
+        "particles": {
+            "number": {
+                "value": 0, // Inicia con 0 partículas, las añadiremos al "explotar"
+                "density": { "enable": true, "value_area": 800 }
+            },
+            "color": {
+                "value": ["#ff0000", "#00ff00", "#0000ff", "#ffff00", "#ff69b4"] // Colores variados
+            },
+            "shape": { "type": "circle" },
+            "opacity": {
+                "value": 1,
+                "random": true,
+                "anim": { "enable": true, "speed": 1, "opacity_min": 0, "sync": false }
+            },
+            "size": {
+                "value": 5,
+                "random": true,
+                "anim": { "enable": true, "speed": 10, "size_min": 0.1, "sync": false }
+            },
+            "line_linked": { "enable": false },
+            "move": {
+                "enable": true,
+                "speed": 6,
+                "direction": "none",
+                "random": true,
+                "straight": false,
+                "out_mode": "out",
+                "bounce": false,
+                "attract": { "enable": false, "rotateX": 600, "rotateY": 1200 }
+            }
+        },
+        "interactivity": {
+            "detect_on": "canvas",
+            "events": {
+                "onhover": { "enable": false },
+                "onclick": { "enable": true, "mode": "push" }, // Permite añadir partículas al clic
+                "resize": true
+            },
+            "modes": {
+                "push": { "particles_nb": 10 } // Cantidad de partículas a añadir por "empuje"
+            }
+        },
+        "retina_detect": true
+    });
+
+    // Para simular una explosión de fuegos artificiales, podemos "empujar" partículas
+    // después de un tiempo o un evento específico.
+    // Esto es más avanzado y requeriría manipular la API de particles.js,
+    // pero para empezar, puedes dejar el "onclick" habilitado para probar.
+    // O puedes usar una configuración que ya genere movimiento.
+
+    // Si quieres simular una explosión automática:
+    const particlesDiv = document.getElementById('particles-js');
+    particlesDiv.style.opacity = 0; // Oculta al inicio
+    particlesDiv.style.transition = 'opacity 1s ease-out';
+
+    setTimeout(() => {
+        particlesDiv.style.opacity = 1; // Revela el contenedor de partículas
+        // Si necesitas que hagan algo más dinámico que la configuración estática,
+        // tendrías que interactuar con particlesJS.fn.particles y sus métodos.
+        // Pero para una simple lluvia de estrellas, la configuración inicial basta.
+    }, 6000); // Aparecen después de que todo el pastel está listo
+}, 6000); // Ajusta este tiempo según tu secuencia de animación
